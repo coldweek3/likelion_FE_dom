@@ -18,6 +18,7 @@
 // innerHTML : 선택한 요소의 HTML 태그를 그대로 제공 (보안에 취약)
 document.querySelector("#div_id").textContent = "멋쟁이 사자처럼 10기";
 document.querySelector(".info__position").textContent = "Backend-End";
+
 console.log(document.querySelector("#div_id").style)
 
 
