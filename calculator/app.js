@@ -1,11 +1,12 @@
-const numberButtons = document.querySelectorAll('#number');
+const numberButtons = document.querySelectorAll('.number');
 const operatorButtons=document.querySelectorAll('.operator')
 const dotButton = document.querySelector('.dot');
-const equalButton = document.querySelector('.equal');
+const equalButton = document.querySelector('#equal');
 const resetButton = document.querySelector('#reset');
 const resultElement = document.getElementById('result');
 
-let currentResult = ''; // 현재 결과 값
+let currentResult = ''; 
+let currentOperator = ''; 
 
 // 숫자버튼
 numberButtons.forEach(button => {
@@ -22,10 +23,11 @@ operatorButtons.forEach(button => {
     const operator = button.textContent;
     currentResult += operator;
     resultElement.value = currentResult;
+    currentOperator = operator;
   });
 });
 
-// 소수점 버튼 클릭 시
+// 소수점 버튼 
 dotButton.addEventListener('click', () => {
   if (!currentResult.includes('.')) {
     currentResult += '.';
@@ -33,23 +35,38 @@ dotButton.addEventListener('click', () => {
   }
 });
 
-// 리셋 버튼 클릭 시
+// 리셋 버튼 
 resetButton.addEventListener('click', () => {
   currentResult = '';
   resultElement.value = '';
 });
 
+// 등호 버튼
 equalButton.addEventListener('click', () => {
-  const expression = currentResult;
-  let result;
+  if (currentOperator !== '') {
+    const numbers = currentResult.split(currentOperator);
+    if (numbers.length === 2) {
+      const num1 = parseFloat(numbers[0]);
+      const num2 = parseFloat(numbers[1]);
+      let result;
 
-  try {
-    result = eval(expression);
-  } catch (error) {
-    console.log('계산 오류:', error);
-    result = '오류';
+      switch (currentOperator) {
+        case '+':
+          result = num1 + num2;
+          break;
+        case '-':
+          result = num1 - num2;
+          break;
+        case '*':
+          result = num1 * num2;
+          break;
+        case '/':
+          result = num1 / num2;
+          break;
+      }
+
+      resultElement.value = result;
+      currentResult = result.toString();
+    }
   }
-
-  resultElement.value = result;
-  currentResult = result.toString();
 });
